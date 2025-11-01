@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diabetes Prediction App 🚀</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+       background: url("{{ url_for('static', filename='Gemini_Generated_Image_9ya5sk9ya5sk9ya5.png') }}") no-repeat center center fixed;
+       background-size: cover;
+       overflow-x: hidden;
+       color: white;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.95), rgba(2, 6, 23, 0.8));
+      z-index: -1;
+    }
+    @keyframes rocketLaunch {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-30px); }
+      100% { transform: translateY(-100vh) scale(0.9); opacity: 0; }
+    }
+    @keyframes hologram {
+      0% { transform: rotateY(0); }
+      100% { transform: rotateY(360deg); }
+    }
+    .animate-rocket { animation: rocketLaunch 2.5s ease-in-out forwards; }
+    .animate-hologram { animation: hologram 3s linear infinite; }
+    .fade-out { animation: fadeOut 1s forwards; }
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; visibility: hidden; }
+    }
+
+    .confidence-box {
+      background: linear-gradient(135deg, rgba(34,211,238,0.2), rgba(14,165,233,0.3), rgba(59,130,246,0.3));
+      border: 1px solid rgba(34,211,238,0.5);
+      box-shadow: 0 0 15px rgba(14,165,233,0.3);
+      border-radius: 12px;
+      padding: 8px 16px;
+      display: inline-block;
+      margin-top: 8px;
+      font-weight: 600;
+      animation: pulseGlow 3s ease-in-out infinite;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 15px rgba(14,165,233,0.3); }
+      50% { box-shadow: 0 0 25px rgba(59,130,246,0.5); }
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-6">
+
+  <!-- INTRO -->
+  <div id="introScreen" class="fixed inset-0 flex flex-col items-center justify-center text-center bg-black/90 backdrop-blur-md z-50">
+    <!-- Animated Rocket -->
+    <div id="rocketIcon" class="text-7xl mb-4 animate-bounce">🚀</div>
+
+    <!-- Main Title -->
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-cyan-300 mb-2 animate-pulse">
+      Initializing Diabetes Prediction System
+    </h1>
+
+    <!-- Subtitle -->
+    <p class="text-cyan-200 text-lg mt-2 mb-6 opacity-90">
+      Powered by Artificial Intelligence & Advanced Health Analytics 🧬
+    </p>
+
+    <!-- Launch Button -->
+    <button id="startBtn"
+      class="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-blue-400 hover:to-cyan-400
+             text-black font-semibold py-3 px-10 rounded-full shadow-lg hover:scale-105 transition-transform duration-300">
+      Initialize System ⚡
+    </button>
+
+    <!-- Developer Credit -->
+    <div class="absolute bottom-6 text-cyan-400 text-sm opacity-80">
+      Developed by <span class="font-semibold text-white">Zakariye Abdirahman 👨‍💻</span>
+    </div>
+  </div>
+
+  <!-- LOADING HOLOGRAM -->
+  <div id="loadingOverlay" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md flex flex-col items-center justify-center z-40">
+    <div class="relative w-36 h-36 mb-6">
+      <div class="absolute inset-0 rounded-full border-4 border-cyan-400/30 animate-ping"></div>
+      <div class="absolute inset-0 flex items-center justify-center text-6xl animate-hologram">🧠</div>
+    </div>
+    <h2 class="text-xl font-semibold text-cyan-300 animate-pulse">Scanning biomarkers…</h2>
+  </div>
+
+  <!-- APP -->
+  <div id="appContent" class="hidden w-full max-w-md bg-white/10 rounded-2xl p-8 shadow-2xl backdrop-blur-md mt-10 border border-cyan-400/20">
+    <h1 class="text-3xl font-bold mb-2 text-center text-cyan-300">Diabetes Prediction App 🧬</h1>
+    <p class="text-center text-sm text-cyan-200 mb-6">AI-powered health insights using advanced analytics</p>
+
+    <form id="predictForm" class="space-y-4">
+      <input name="age" id="age" placeholder="Age" type="number" required class="w-full p-3 rounded-xl bg-transparent border border-cyan-300/50 text-white placeholder-cyan-200">
+      <input name="hypertension" id="hypertension" placeholder="Hypertension (0 or 1)" type="number" required class="w-full p-3 rounded-xl bg-transparent border border-cyan-300/50 text-white placeholder-cyan-200">
+      <input name="heart_disease" id="heart_disease" placeholder="Heart Disease (0 or 1)" type="number" required class="w-full p-3 rounded-xl bg-transparent border border-cyan-300/50 text-white placeholder-cyan-200">
+      <input name="bmi" id="bmi" placeholder="BMI" type="number" step="0.1" required class="w-full p-3 rounded-xl bg-transparent border border-cyan-300/50 text-white placeholder-cyan-200">
+      <input name="HbA1c_level" id="HbA1c_level" placeholder="HbA1c Level" type="number" step="0.1" required class="w-full p-3 rounded-xl bg-transparent border border-cyan-300/50 text-white placeholder-cyan-200">
+      <input name="blood_glucose_level" id="blood_glucose_level" placeholder="Blood Glucose Level" type="number" required class="w-full p-3 rounded-xl bg-transparent border border-cyan-300/50 text-white placeholder-cyan-200">
+
+      <button id="runBtn" type="submit" class="w-full bg-cyan-500 hover:bg-cyan-400 text-black font-semibold py-3 rounded-xl transition">Run Prediction 🔍</button>
+    </form>
+
+    <!-- RESULT -->
+    <div id="resultSection" class="mt-6 hidden text-center">
+      <h2 class="text-2xl font-bold text-cyan-300 mb-3">Prediction Result</h2>
+      <div id="resultBox" class="p-6 rounded-xl transition-all backdrop-blur-lg shadow-lg border">
+        <p id="resultText" class="text-lg font-semibold"></p>
+        <div id="confidenceBox" class="mt-3 hidden">
+          <p id="confidenceText" class="confidence-box text-cyan-100"></p>
+        </div>
+      </div>
+      <button id="retryBtn" class="mt-4 bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-lg">Try Again 🔁</button>
+    </div>
+  </div>
+
+  <script>
+    const introScreen = document.getElementById('introScreen');
+    const startBtn = document.getElementById('startBtn');
+    const rocketIcon = document.getElementById('rocketIcon');
+    const appContent = document.getElementById('appContent');
+    const form = document.getElementById('predictForm');
+    const overlay = document.getElementById('loadingOverlay');
+    const resultSection = document.getElementById('resultSection');
+    const resultText = document.getElementById('resultText');
+    const confidenceText = document.getElementById('confidenceText');
+    const confidenceBox = document.getElementById('confidenceBox');
+    const resultBox = document.getElementById('resultBox');
+    const retryBtn = document.getElementById('retryBtn');
+
+    // 🎤 Prepare voice options
+    let selectedVoice = null;
+    function setVoice() {
+      const voices = speechSynthesis.getVoices();
+      selectedVoice = voices.find(v => /female|samantha|google uk female|zira/i.test(v.name)) || voices[0];
+    }
+    speechSynthesis.onvoiceschanged = setVoice;
+
+    startBtn.addEventListener('click', () => {
+      rocketIcon.classList.add('animate-rocket');
+      setTimeout(() => {
+        introScreen.classList.add('fade-out');
+        setTimeout(() => {
+          introScreen.style.display = 'none';
+          appContent.classList.remove('hidden');
+        }, 900);
+      }, 2200);
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      overlay.classList.remove('hidden');
+      resultSection.classList.add('hidden');
+
+      const payload = {
+        age: document.getElementById('age').value,
+        hypertension: document.getElementById('hypertension').value,
+        heart_disease: document.getElementById('heart_disease').value,
+        bmi: document.getElementById('bmi').value,
+        HbA1c_level: document.getElementById('HbA1c_level').value,
+        blood_glucose_level: document.getElementById('blood_glucose_level').value
+      };
+
+      try {
+        const res = await fetch('/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        setTimeout(() => {
+          overlay.classList.add('hidden');
+          resultSection.classList.remove('hidden');
+          let speechText = "";
+
+          if (data.prediction === 0) {
+            resultBox.className = "p-6 rounded-xl border bg-green-500/20 border-green-400 shadow-lg";
+            resultText.innerHTML = `😊 <span class='text-green-300 font-semibold'>Great news!</span> The model predicts <span class='text-green-200 font-bold'>No Diabetes Detected</span>. Keep maintaining a healthy lifestyle and regular checkups. 🌿💪`;
+            speechText = "Great news! No diabetes detected. Keep up your healthy lifestyle!";
+          } else if (data.prediction === 1) {
+            resultBox.className = "p-6 rounded-xl border bg-red-500/20 border-red-400 shadow-lg";
+            resultText.innerHTML = `😔 <span class='text-red-300 font-semibold'>Alert:</span> The model indicates a <span class='text-red-200 font-bold'>High Risk of Diabetes</span>. Please consult a medical professional for proper diagnosis. ❤️‍🩹👩‍⚕️`;
+            speechText = "Attention. The system predicts a high risk of diabetes. Please consult a medical professional immediately.";
+          } else {
+            resultBox.className = "p-6 rounded-xl border bg-yellow-500/20 border-yellow-400 shadow-lg";
+            resultText.innerHTML = `⚠️ <span class='text-yellow-300 font-semibold'>Uncertain Result</span> — please try again or consult a healthcare provider.`;
+            speechText = "Uncertain result. Please try again.";
+          }
+
+          if (data.confidence !== undefined) {
+            confidenceBox.classList.remove('hidden');
+            confidenceText.innerText = `Model Confidence: ${(data.confidence * 100).toFixed(1)}%`;
+          } else {
+            confidenceBox.classList.add('hidden');
+          }
+
+          // 🗣️ Enhanced AI voice (human-like)
+          const utterance = new SpeechSynthesisUtterance(speechText);
+          utterance.voice = selectedVoice;
+          utterance.rate = 1.02;
+          utterance.pitch = data.prediction === 0 ? 1.1 : 0.9;
+          utterance.volume = 1;
+          utterance.lang = 'en-US';
+          speechSynthesis.cancel();
+          speechSynthesis.speak(utterance);
+
+        }, 900);
+      } catch (err) {
+        overlay.classList.add('hidden');
+        resultSection.classList.remove('hidden');
+        resultBox.className = "p-6 rounded-xl border bg-yellow-500/20 border-yellow-400 shadow-lg";
+        resultText.innerText = `❌ Error: ${err.message}`;
+        confidenceBox.classList.add('hidden');
+      }
+    });
+
+    retryBtn.addEventListener('click', () => {
+      resultSection.classList.add('hidden');
+      document.getElementById('predictForm').reset();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,572 @@
+<html><head>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'></script>
+</head><body><div class="context" style="
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+">
+        
+<style>
+
+.loader {
+    border: 5px solid #ffffff;
+    border-radius: 50%;
+    border-top: 5px solid #3dff00;
+    width: 60px;
+    height: 60px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+
+<div class="loader" id="loader" style="display: block;"></div>
+<button onclick="speakText(text1);
+document.getElementById('intro').style.display = 'block';this.style.display='none'" id="startbtn" style="
+    padding-left: 20px;
+    padding-right: 20px;
+    border-color: transparent;
+    border-radius: 5px;
+    background: repeating-linear-gradient(90deg, #1dff24, transparent 100%);
+    color: white;
+    font-size: 18px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 250px;
+    display: none;
+">Launch Application</button><div id="intro" style="width: 80%;max-width: 700px;background: white;padding: 10px;border-radius: 20px;display: none;">
+    <h3 style="
+    margin-top: 20px;
+    margin-left: 20px;
+">Quick Intro</h3>
+    <p style="
+    margin: 20px;
+">Welcome to Zakariyah's Diabetes Prediction Application! This tool is designed to help you assess your risk of developing diabetes based on a few key health metrics. By entering information such as your age, glucose level, and other relevant health data, our application uses a predictive model to provide you with an estimate of your diabetes risk.</p>
+    <p style="
+    margin: 20px;
+"><b>Disclaimer</b>: This tool is intended for informational purposes only and should not be used as a substitute for professional medical advice, diagnosis, or treatment. Always consult with a healthcare professional for medical advice.
+
+</p>
+<span style="
+    margin-left: 20px;
+    margin-bottom: 20px;
+    display: block;
+">
+    <button onclick="speakText(text1)" style="
+    height: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-color: transparent;
+    background: #38edff;
+">Replay</button>
+    
+<button onclick="showThis('intro','none');showThis('form','flex');speakText(text2)" style="
+    height: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-color: transparent;
+    color: white;
+    background: black;
+">Proceed</button></span>
+</div>
+<div id="form" style="
+    width: 80%;
+    display: flex;
+    background: white;
+    border-radius: 20px;
+    gap: 20px;
+    max-width: 700px;
+    overflow: hidden;
+    display: none;
+">
+    <div style="
+    background: url(img1.jpg);
+    width: 50%;
+    background-size: cover;
+"></div>
+    <div style="
+    width: 50%;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+">
+    <h2 style="
+    text-align: center;
+">Diagnosis Form</h2>
+    <form method="post" action="">
+    <span style="
+    display: flex;
+    flex-direction: column;
+">
+        <label style="
+    margin: 5px;
+    color: black;
+">Age</label>
+        <input type="number" id="age" name="age" style="
+    height: 40px;
+    border-color: gainsboro;
+    border-style: solid;
+    border-radius: 5px;
+    padding-left: 15px;
+">
+    </span>
+    <span style="
+    display: flex;
+    flex-direction: column;
+">
+        <label style="
+    margin: 5px;
+    color: black;
+">Hypertension (0 or 1)</label>
+        <input type="number" id="hp" name="hp" style="
+    height: 40px;
+    border-color: gainsboro;
+    border-style: solid;
+    border-radius: 5px;
+    padding-left: 15px;
+">
+    </span><span style="
+    display: flex;
+    flex-direction: column;
+">
+        <label style="
+    margin: 5px;
+    color: black;
+">Heart Disease (0 or 1)</label>
+        <input type="number" id="hd" name="hd" style="
+    height: 40px;
+    border-color: gainsboro;
+    border-style: solid;
+    border-radius: 5px;
+    padding-left: 15px;
+">
+    </span><span style="
+    display: flex;
+    flex-direction: column;
+">
+        <label style="
+    margin: 5px;
+    color: black;
+">BMI</label>
+        <input type="number" id="bmi" name="bmi" style="
+    height: 40px;
+    border-color: gainsboro;
+    border-style: solid;
+    border-radius: 5px;
+    padding-left: 15px;
+">
+    </span><span style="
+    display: flex;
+    flex-direction: column;
+">
+        <label style="
+    margin: 5px;
+    color: black;
+">HbA1C Level</label>
+        <input type="number" id="hb" name="hb" style="
+    height: 40px;
+    border-color: gainsboro;
+    border-style: solid;
+    border-radius: 5px;
+    padding-left: 15px;
+">
+    </span><span style="
+    display: flex;
+    flex-direction: column;
+">
+        <label style="
+    margin: 5px;
+    color: black;
+">Blood Glucose Level</label>
+        <input type="number" id="bg" name="bg" style="
+    height: 40px;
+    border-color: gainsboro;
+    border-style: solid;
+    border-radius: 5px;
+    padding-left: 15px;
+">
+    </span><button type="button" onclick="showThis('form','none');showThis('resultEval','block');makePrediction()" style="
+    margin-top: 15px;
+    width: -webkit-fill-available;
+    border-color: transparent;
+    background: black;
+    color: white;
+    height: 40px;
+    border-radius: 5px;
+    font-size: 18px;
+">Predict</button></form>
+</div>
+</div>
+<div id="resultEval" style="
+    display: none;
+">
+    <style>
+        .fading-text {
+  font-size: 24px;
+  color: #333;
+  animation: fade 2s infinite;
+}
+
+@keyframes fade {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+    </style>
+
+    <p class="fading-text" style="
+    color: white;
+    font-size: 20px;
+">Computing Results ...</p>
+</div>
+<div id="resultCon" style="display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;">
+    <div id="bad" style="
+    max-width: 500px;
+    text-align: center;
+    display: none;
+">
+      <img src="../uploads/images/1719141730_sad.png" style="
+    width: 200px;
+">
+<h3 style="
+    color: white;
+    margin: 10px;
+">Results</h3>
+<p style="
+    color: white;
+">Diabetes test shows positive implying that  you have diabetes. </p>
+<h3 style="
+    color: white;
+    margin: 10px;
+">Advice</h3>
+<p style="
+    color: white;
+">Your test results indicate you have diabetes. It's important to seek medical assistance immediately. Please schedule an appointment with your healthcare provider to discuss your diagnosis and develop a treatment plan. Early management is crucial for your health.</p>
+    </div>
+<div id="good" style="
+    max-width: 500px;
+    text-align: center;
+    display: none;
+">
+      <img src="../uploads/images/1719141730_good.png" style="
+    width: 200px;
+">
+<h3 style="
+    color: white;
+    margin: 10px;
+">Results</h3>
+<p style="
+    color: white;
+">Diabetes test shows negative implying that you do not have diabetes. </p>
+<h3 style="
+    color: white;
+    margin: 10px;
+">Advice</h3>
+<p style="
+    color: white;
+">Your test results indicate you do not have diabetes, which is great news. To maintain your health and prevent diabetes, avoid excessive sugar and refined carbs like white bread and pasta, stay active to avoid a sedentary lifestyle, reduce your intake of high-fat foods such as fried foods and fast food, avoid smoking, and limit alcohol consumption. By making these healthy choices, you can help prevent diabetes and maintain your overall well-being.</p>
+    </div><div id="alert" style="
+    max-width: 500px;
+    text-align: center;
+    display: none;
+">
+      <img src="../uploads/images/1719141729_worried.png" style="
+    width: 200px;
+">
+<h3 style="
+    color: white;
+    margin: 10px;
+">Alert!!!</h3>
+<p style="
+    color: white;
+">Ooh friend, I have failed to compute your data because the server is down. Zakariyah is the one who made me so please contact him and tell him about it. But wait did you fill in all the required form fields OR not?</p>
+
+
+    </div>
+<button onclick="showThis('form','flex');showThis('alert','none');showThis('bad','none');showThis('good','none');showThis('resultCon','none');" style="
+    color: white;
+    width: 200px;
+    height: 40px;
+    border-radius: 10px;
+    border-style: none;
+    font-size: 16px;
+    background: repeating-radial-gradient(black, #3b3b3b 100%);
+">Go Back</button>
+</div>
+    </div>
+
+
+<div class="area">
+            <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
+    </div>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Exo:400,700');
+
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+body{
+    font-family: 'Exo', sans-serif;
+}
+
+
+.context {
+    width: 100%;
+    position: absolute;
+    top:50vh;
+    
+}
+
+.context h1{
+    text-align: center;
+    color: #fff;
+    font-size: 50px;
+}
+
+
+.area{
+    background: #4e54c8;  
+    background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);  
+    width: 100%;
+    height:100vh;
+    
+   
+}
+
+.circles{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.circles li{
+    position: absolute;
+    display: block;
+    list-style: none;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    animation: animate 25s linear infinite;
+    bottom: -150px;
+    
+}
+
+.circles li:nth-child(1){
+    left: 25%;
+    width: 80px;
+    height: 80px;
+    animation-delay: 0s;
+}
+
+
+.circles li:nth-child(2){
+    left: 10%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 2s;
+    animation-duration: 12s;
+}
+
+.circles li:nth-child(3){
+    left: 70%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 4s;
+}
+
+.circles li:nth-child(4){
+    left: 40%;
+    width: 60px;
+    height: 60px;
+    animation-delay: 0s;
+    animation-duration: 18s;
+}
+
+.circles li:nth-child(5){
+    left: 65%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 0s;
+}
+
+.circles li:nth-child(6){
+    left: 75%;
+    width: 110px;
+    height: 110px;
+    animation-delay: 3s;
+}
+
+.circles li:nth-child(7){
+    left: 35%;
+    width: 150px;
+    height: 150px;
+    animation-delay: 7s;
+}
+
+.circles li:nth-child(8){
+    left: 50%;
+    width: 25px;
+    height: 25px;
+    animation-delay: 15s;
+    animation-duration: 45s;
+}
+
+.circles li:nth-child(9){
+    left: 20%;
+    width: 15px;
+    height: 15px;
+    animation-delay: 2s;
+    animation-duration: 35s;
+}
+
+.circles li:nth-child(10){
+    left: 85%;
+    width: 150px;
+    height: 150px;
+    animation-delay: 0s;
+    animation-duration: 11s;
+}
+
+
+
+@keyframes animate {
+
+    0%{
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+        border-radius: 0;
+    }
+
+    100%{
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+        border-radius: 50%;
+    }
+
+}
+    </style>
+      <script>
+        function speakText(text) {
+
+        if (!text) {
+        alert('Please enter some text to speak');
+        return;
+      }
+    speechSynthesis.cancel();
+      const speech = new SpeechSynthesisUtterance(text);
+      window.speechSynthesis.speak(speech);
+    }
+    
+    var text1= "Welcome to Zakariyah's Diabetes Prediction Application! This tool is designed to help you assess your risk of developing diabetes based on a few key health metrics. By entering information such as your age, glucose level, and other relevant health data, our application uses a predictive model to provide you with an estimate of your diabetes risk.  Disclaimer: This tool is intended for informational purposes only and should not be used as a substitute for professional medical advice, diagnosis, or treatment. Always consult with a healthcare professional for medical advice.";
+    var text2 = "Please fill this form with accurate data for accurate results and upon completion, clip the evalutio button for the results. Thank you";
+    setTimeout(() => {
+        document.getElementById('loader').style.display = 'none';
+       
+        document.getElementById('startbtn').style.display = 'block';
+    }, 5000);
+  
+function showThis(ele,sty){
+var element = document.getElementById(ele).style.display = sty;
+}
+      </script>
+
+<script>
+    function makePrediction(){
+ speakText("Allow me tell you a story as we wait for the results.. Once upon a time, in a small village nestled between rolling hills and lush forests, lived a wise old healer named Dr. Elden. Dr. Elden was known far and wide for his knowledge of natural remedies and his compassionate care for the villagers. One sunny morning, a young woman named Clara visited Dr. Elden. Clara had been feeling unusually tired and thirsty lately, and she was worried about her health. With a warm smile, Dr. Elden welcomed Clara into his cozy clinic, where the scent of herbs and flowers filled the air. 'Don’t worry, Clara,' Dr. Elden said reassuringly. 'We’ll find out what’s going on and get you back to feeling your best. 'As they waited for Clara's test results, Dr. Elden shared a story to ease her mind.'Many years ago,' he began, 'there was a young farmer named Leo who lived just outside the village. Leo worked tirelessly in his fields, growing the most bountiful crops anyone had ever seen. But one season, Leo fell ill. He was exhausted all the time and couldn’t understand why.'Concerned for his health, Leo came to see me. Just like you, he waited anxiously for his results. To pass the time, I told him a story about the importance of taking care of oneself, not just through hard work, but through balance and self-care.'Leo's test results showed that he had a condition that could be managed with some lifestyle changes and natural remedies. He embraced these changes, started eating healthier, and took time to rest and enjoy life. Soon enough, he was back in his fields, stronger and happier than ever.'The lesson Leo learned is one I share with all my patients: no matter the outcome, there is always a way to improve your health and well-being. It’s about finding the right balance and making the necessary adjustments.'Dr. Elden smiled warmly at Clara. 'So, whatever your results may be, remember that you have the strength to make positive changes and take control of your health. And you won’t be alone; I’ll be here to guide you every step of the way.'Clara felt a wave of relief wash over her. She knew that, like Leo, she could face whatever challenges came her way with the support and guidance of Dr. Elden.");
+var age = document.getElementById('age').value; 
+var hp = document.getElementById('hp').value; 
+var hd = document.getElementById('hd').value; 
+var bmi = document.getElementById('bmi').value; 
+var hb = document.getElementById('hb').value; 
+var bg = document.getElementById('bg').value; 
+    	$.ajax({
+					type: 'GET',
+					url: 'test.php',
+					data: {
+                      age : age,
+                      hp : hp,
+                      hd : hd,
+                      bmi : bmi,
+                      hb : hb,
+                      bg :bg                  
+
+					},
+					cache: false,
+					success: function(data) {
+                      speakText("Oh friend the results are back!!!");
+                        // console.log(data);
+                      let str = data;
+let lastThree = str.slice(-3); // Get the last three characters
+let middleChar = lastThree.charAt(1); // Get the middle character (index 1)
+
+console.log("Last three characters:", lastThree);
+console.log("Middle character of the last three:", middleChar);
+                      showThis('resultEval','none');
+                      showThis('resultCon','flex');
+    setTimeout(() => {
+ if(middleChar == 1){
+                        showThis('bad','block');
+                      speakText("Results Diabetes test shows positive implying that you have diabetes. Advice. Your test results indicate you have diabetes. It's important to seek medical assistance immediately. Please schedule an appointment with your healthcare provider to discuss your diagnosis and develop a treatment plan. Early management is crucial for your health.");
+                      }else if(middleChar == 0){
+                        showThis('good','block');
+                      speakText("Results Diabetes test shows negative implying that you do not have diabetes. Advice. Your test results indicate you do not have diabetes, which is great news. To maintain your health and prevent diabetes, avoid excessive sugar and refined carbs like white bread and pasta, stay active to avoid a sedentary lifestyle, reduce your intake of high-fat foods such as fried foods and fast food, avoid smoking, and limit alcohol consumption. By making these healthy choices, you can help prevent diabetes and maintain your overall well-being.");
+                      }else{
+                        showThis('alert','block');
+                      speakText("Ooh friend, I have failed to compute your data because the server is down. Zakariyah is the one who made me so please contact him and tell him about it. But wait,, did you fill in all the required form fields OR not?");
+                      }
+    }, 3000);                      
+                      
+                        //var res = JSON.parse(data);
+                       //console.log(data);
+// Check the status in the response
+ //if (res.status === 'success') {
+   //  console.log(res.id);
+
+//} else {
+   //console.error(res.status);
+//}
+
+					},
+					error: function(xhr, status, error) {
+						console.error(xhr);
+					}
+				});
+            }
+</script>
+         
+      
+      </body></html>
