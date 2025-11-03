@@ -3,21 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Diabetes Prediction App 🚀</title>
+  <title>Diabetes Prediction App - Sign In 🚀</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body {
-       background: url("{{ url_for('static', filename='Gemini_Generated_Image_9ya5sk9ya5sk9ya5.png') }}") no-repeat center center fixed;
-       background-size: cover;
-       overflow-x: hidden;
-       color: white;
+        background: url("{{ url_for('static', filename='Gemini_Generated_Image_9ya5sk9ya5sk9ya5.png') }}")
+                no-repeat center center fixed;
+    background-size: cover;
+    overflow-x: hidden;
+    color: white;
+    min-height: 100vh;
+    position: relative;
     }
     body::before {
       content: "";
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.95), rgba(2, 6, 23, 0.8));
+      background: rgba(2, 6, 23, 0.85);
       z-index: -1;
     }
     @keyframes rocketLaunch {
@@ -29,9 +33,18 @@
       0% { transform: rotateY(0); }
       100% { transform: rotateY(360deg); }
     }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes cardGlow {
+      0%, 100% { box-shadow: 0 0 20px rgba(34, 211, 238, 0.3); }
+      50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.5); }
+    }
     .animate-rocket { animation: rocketLaunch 2.5s ease-in-out forwards; }
     .animate-hologram { animation: hologram 3s linear infinite; }
     .fade-out { animation: fadeOut 1s forwards; }
+    .fade-in { animation: fadeIn 0.8s ease-out forwards; }
     @keyframes fadeOut {
       from { opacity: 1; }
       to { opacity: 0; visibility: hidden; }
@@ -52,23 +65,74 @@
       0%, 100% { box-shadow: 0 0 15px rgba(14,165,233,0.3); }
       50% { box-shadow: 0 0 25px rgba(59,130,246,0.5); }
     }
+    
+    .form-input:focus {
+      box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.3);
+    }
+    
+    .email-preview {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(34, 211, 238, 0.3);
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 20px;
+    }
+    
+    .main-app {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(34, 211, 238, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+      width: 100%;
+      max-width: 800px;
+    }
+    
+    .info-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(34, 211, 238, 0.3);
+      border-radius: 16px;
+      padding: 25px;
+      margin: 15px 0;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      animation: cardGlow 4s ease-in-out infinite;
+    }
+    
+    .info-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(34, 211, 238, 0.6);
+    }
+    
+    .card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: #22d3ee;
+    }
+    
+    .glass-panel {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(34, 211, 238, 0.3);
+      border-radius: 16px;
+    }
   </style>
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen p-6">
 
-  <!-- INTRO -->
+  <!-- INTRO SCREEN -->
   <div id="introScreen" class="fixed inset-0 flex flex-col items-center justify-center text-center bg-black/90 backdrop-blur-md z-50">
     <!-- Animated Rocket -->
     <div id="rocketIcon" class="text-7xl mb-4 animate-bounce">🚀</div>
 
     <!-- Main Title -->
     <h1 class="text-3xl sm:text-4xl font-extrabold text-cyan-300 mb-2 animate-pulse">
-      Initializing Diabetes Prediction System
+      Diabetes Prediction System
     </h1>
 
     <!-- Subtitle -->
     <p class="text-cyan-200 text-lg mt-2 mb-6 opacity-90">
-      Powered by Artificial Intelligence & Advanced Health Analytics 🧬
+      AI-Powered Health Analytics Platform
     </p>
 
     <!-- Launch Button -->
@@ -84,27 +148,179 @@
     </div>
   </div>
 
-  <!-- LOADING HOLOGRAM -->
-  <div id="loadingOverlay" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md flex flex-col items-center justify-center z-40">
-    <div class="relative w-36 h-36 mb-6">
-      <div class="absolute inset-0 rounded-full border-4 border-cyan-400/30 animate-ping"></div>
-      <div class="absolute inset-0 flex items-center justify-center text-6xl animate-hologram">🧠</div>
+  <!-- INTRODUCTION & DISCLAIMER CARDS -->
+  <div id="infoScreen" class="hidden w-full max-w-4xl glass-panel p-6 mt-10">
+    <h1 class="text-4xl font-bold mb-2 text-center text-cyan-300">Diabetes Prediction System</h1>
+    <p class="text-center text-lg text-cyan-200 mb-8">Please review the following information before proceeding</p>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Introduction Card -->
+      <div class="info-card">
+        <div class="card-icon">
+          <i class="fas fa-info-circle"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-cyan-300 mb-4">System Introduction</h2>
+        <div class="text-cyan-200 space-y-3">
+          <p class="flex items-start">
+            <i class="fas fa-brain text-cyan-400 mr-2 mt-1"></i>
+            <span>This AI-powered platform uses advanced machine learning algorithms to analyze health parameters and assess diabetes risk.</span>
+          </p>
+          <p class="flex items-start">
+            <i class="fas fa-chart-line text-cyan-400 mr-2 mt-1"></i>
+            <span>The system evaluates multiple biomarkers including BMI, HbA1c levels, blood glucose, and other health indicators.</span>
+          </p>
+          <p class="flex items-start">
+            <i class="fas fa-shield-alt text-cyan-400 mr-2 mt-1"></i>
+            <span>Your data is processed securely with enterprise-grade encryption and privacy protection.</span>
+          </p>
+          <p class="flex items-start">
+            <i class="fas fa-rocket text-cyan-400 mr-2 mt-1"></i>
+            <span>Developed with cutting-edge technology to provide accurate, fast, and reliable health insights.</span>
+          </p>
+        </div>
+      </div>
+      
+      <!-- Disclaimer Card -->
+      <div class="info-card">
+        <div class="card-icon">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-cyan-300 mb-4">Important Disclaimer</h2>
+        <div class="text-cyan-200 space-y-3">
+          <p class="flex items-start">
+            <i class="fas fa-stethoscope text-cyan-400 mr-2 mt-1"></i>
+            <span><strong>Not Medical Advice:</strong> This tool provides predictive analysis only and does not replace professional medical diagnosis.</span>
+          </p>
+          <p class="flex items-start">
+            <i class="fas fa-user-md text-cyan-400 mr-2 mt-1"></i>
+            <span><strong>Consult Professionals:</strong> Always consult with qualified healthcare providers for medical decisions and treatments.</span>
+          </p>
+          <p class="flex items-start">
+            <i class="fas fa-database text-cyan-400 mr-2 mt-1"></i>
+            <span><strong>Data Accuracy:</strong> Results depend on input accuracy. The system is not liable for incorrect data entry.</span>
+          </p>
+          <p class="flex items-start">
+            <i class="fas fa-lock text-cyan-400 mr-2 mt-1"></i>
+            <span><strong>Privacy:</strong> While we implement security measures, no system is completely immune to breaches.</span>
+          </p>
+        </div>
+        
+        <div class="mt-6 p-4 bg-cyan-900/30 rounded-lg border border-cyan-700/50">
+          <div class="flex items-start">
+            <input type="checkbox" id="agreeCheckbox" class="mt-1 mr-3 rounded bg-transparent border-cyan-300/50 text-cyan-400 focus:ring-cyan-400">
+            <label for="agreeCheckbox" class="text-cyan-200 text-sm">
+              I understand that this is a predictive tool only and agree to consult healthcare professionals for medical advice. I have read and accept the terms of use.
+            </label>
+          </div>
+        </div>
+      </div>
     </div>
-    <h2 class="text-xl font-semibold text-cyan-300 animate-pulse">Scanning biomarkers…</h2>
+    
+    <!-- Continue Button -->
+    <div class="text-center mt-8">
+      <button id="continueBtn" disabled
+        class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold py-3 px-12 rounded-xl transition-all duration-300 shadow-lg opacity-50 cursor-not-allowed">
+        Continue to Sign In <i class="fas fa-arrow-right ml-2"></i>
+      </button>
+      <p class="text-cyan-200 text-sm mt-3">You must accept the disclaimer to continue</p>
+    </div>
   </div>
 
-  <!-- APP -->
-  <div id="appContent" class="hidden w-full max-w-md bg-white/10 rounded-2xl p-8 shadow-2xl backdrop-blur-md mt-10 border border-cyan-400/20">
-    <h1 class="text-3xl font-bold mb-2 text-center text-cyan-300">Diabetes Prediction App 🧬</h1>
+  <!-- SIGN IN FORM -->
+  <div id="signInContent" class="hidden w-full max-w-md glass-panel p-8 shadow-2xl mt-10">
+    <h1 class="text-3xl font-bold mb-2 text-center text-cyan-300">Secure Sign In 🔐</h1>
+    <p class="text-center text-sm text-cyan-200 mb-6">Access your diabetes prediction dashboard</p>
+
+    <form id="signInForm" class="space-y-4">
+      <div>
+        <input name="email" id="email" placeholder="Email Address" type="email" required 
+               class="w-full p-3 rounded-xl bg-transparent border border-cyan-300/50 text-white placeholder-cyan-200 form-input transition-all">
+      </div>
+      
+      <div>
+        <input name="password" id="password" placeholder="Password" type="password" required 
+               class="w-full p-3 rounded-xl bg-transparent border border-cyan-300/50 text-white placeholder-cyan-200 form-input transition-all">
+      </div>
+      
+      <div class="flex items-center justify-between text-sm">
+        <label class="flex items-center text-cyan-200">
+          <input type="checkbox" class="rounded bg-transparent border-cyan-300/50 text-cyan-400 focus:ring-cyan-400">
+          <span class="ml-2">Remember me</span>
+        </label>
+        <a href="#" class="text-cyan-300 hover:text-cyan-200 transition-colors">Forgot password?</a>
+      </div>
+
+      <button id="signInBtn" type="submit" 
+              class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-cyan-500/25">
+        Sign In 🔍
+      </button>
+      
+      <div class="text-center text-cyan-200 text-sm mt-4">
+        Don't have an account? 
+        <a href="#" class="text-cyan-300 font-semibold hover:text-cyan-200 transition-colors">Sign up here</a>
+      </div>
+    </form>
+
+    <!-- EMAIL PREVIEW -->
+    <div id="emailPreview" class="email-preview mt-6 hidden">
+      <h3 class="text-lg font-semibold text-cyan-300 mb-3">Email Preview</h3>
+      <div class="text-sm text-cyan-200">
+        <p><strong>To:</strong> <span id="preview-to">user@example.com</span></p>
+        <p><strong>Subject:</strong> Diabetes Prediction App - Sign In Details</p>
+        <div class="mt-2 p-2 bg-black/30 rounded-lg">
+          <p>Hello,</p>
+          <p class="mt-2">Here are your sign-in details for the Diabetes Prediction App:</p>
+          <ul class="mt-2 ml-4">
+            <li><strong>Email:</strong> <span id="preview-email">user@example.com</span></li>
+            <li><strong>Password:</strong> <span id="preview-password">••••••••</span></li>
+          </ul>
+          <p class="mt-2">Thank you for using our service!</p>
+          <p class="mt-4 text-xs opacity-70">- Diabetes Prediction System Team</p>
+        </div>
+      </div>
+      <div class="mt-4 flex justify-between">
+        <button id="editBtn" class="bg-cyan-600 hover:bg-cyan-500 text-white px-4 py-2 rounded-lg text-sm transition-colors">
+          <i class="fas fa-edit mr-1"></i> Edit
+        </button>
+        <button id="sendEmailBtn" class="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-lg text-sm transition-colors">
+          <i class="fas fa-paper-plane mr-1"></i> Send to My Email
+        </button>
+      </div>
+    </div>
+
+    <!-- SIGN IN STATUS -->
+    <div id="signInStatus" class="mt-6 hidden text-center">
+      <h2 class="text-2xl font-bold text-cyan-300 mb-3">Authentication Status</h2>
+      <div id="statusBox" class="p-6 rounded-xl transition-all backdrop-blur-lg shadow-lg border">
+        <p id="statusText" class="text-lg font-semibold"></p>
+        <div id="loadingIndicator" class="mt-4">
+          <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-cyan-400 border-r-transparent"></div>
+          <p class="mt-2 text-cyan-200">Processing your request...</p>
+        </div>
+      </div>
+      <button id="backToSignInBtn" class="mt-4 bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-lg">Back to Sign In 🔁</button>
+    </div>
+  </div>
+
+  <!-- MAIN APP CONTENT (DIABETES PREDICTION FORM) -->
+  <div id="mainAppContent" class="hidden main-app">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-3xl font-bold text-cyan-300">Diabetes Prediction App 🧬</h1>
+      <button id="logoutBtn" class="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-lg transition-colors">
+        <i class="fas fa-sign-out-alt mr-1"></i> Logout
+      </button>
+    </div>
     <p class="text-center text-sm text-cyan-200 mb-6">AI-powered health insights using advanced analytics</p>
 
     <form id="predictForm" class="space-y-4">
-      <input name="age" id="age" placeholder="Age" type="number" required class="w-full p-3 rounded-xl bg-transparent border border-cyan-300/50 text-white placeholder-cyan-200">
-      <input name="hypertension" id="hypertension" placeholder="Hypertension (0 or 1)" type="number" required class="w-full p-3 rounded-xl bg-transparent border border-cyan-300/50 text-white placeholder-cyan-200">
-      <input name="heart_disease" id="heart_disease" placeholder="Heart Disease (0 or 1)" type="number" required class="w-full p-3 rounded-xl bg-transparent border border-cyan-300/50 text-white placeholder-cyan-200">
-      <input name="bmi" id="bmi" placeholder="BMI" type="number" step="0.1" required class="w-full p-3 rounded-xl bg-transparent border border-cyan-300/50 text-white placeholder-cyan-200">
-      <input name="HbA1c_level" id="HbA1c_level" placeholder="HbA1c Level" type="number" step="0.1" required class="w-full p-3 rounded-xl bg-transparent border border-cyan-300/50 text-white placeholder-cyan-200">
-      <input name="blood_glucose_level" id="blood_glucose_level" placeholder="Blood Glucose Level" type="number" required class="w-full p-3 rounded-xl bg-transparent border border-cyan-300/50 text-white placeholder-cyan-200">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <input name="age" id="age" placeholder="Age" type="number" required class="w-full p-3 rounded-xl bg-transparent border border-cyan-300/50 text-white placeholder-cyan-200">
+        <input name="hypertension" id="hypertension" placeholder="Hypertension (0 or 1)" type="number" required class="w-full p-3 rounded-xl bg-transparent border border-cyan-300/50 text-white placeholder-cyan-200">
+        <input name="heart_disease" id="heart_disease" placeholder="Heart Disease (0 or 1)" type="number" required class="w-full p-3 rounded-xl bg-transparent border border-cyan-300/50 text-white placeholder-cyan-200">
+        <input name="bmi" id="bmi" placeholder="BMI" type="number" step="0.1" required class="w-full p-3 rounded-xl bg-transparent border border-cyan-300/50 text-white placeholder-cyan-200">
+        <input name="HbA1c_level" id="HbA1c_level" placeholder="HbA1c Level" type="number" step="0.1" required class="w-full p-3 rounded-xl bg-transparent border border-cyan-300/50 text-white placeholder-cyan-200">
+        <input name="blood_glucose_level" id="blood_glucose_level" placeholder="Blood Glucose Level" type="number" required class="w-full p-3 rounded-xl bg-transparent border border-cyan-300/50 text-white placeholder-cyan-200">
+      </div>
 
       <button id="runBtn" type="submit" class="w-full bg-cyan-500 hover:bg-cyan-400 text-black font-semibold py-3 rounded-xl transition">Run Prediction 🔍</button>
     </form>
@@ -126,9 +342,22 @@
     const introScreen = document.getElementById('introScreen');
     const startBtn = document.getElementById('startBtn');
     const rocketIcon = document.getElementById('rocketIcon');
-    const appContent = document.getElementById('appContent');
-    const form = document.getElementById('predictForm');
-    const overlay = document.getElementById('loadingOverlay');
+    const infoScreen = document.getElementById('infoScreen');
+    const agreeCheckbox = document.getElementById('agreeCheckbox');
+    const continueBtn = document.getElementById('continueBtn');
+    const signInContent = document.getElementById('signInContent');
+    const signInForm = document.getElementById('signInForm');
+    const emailPreview = document.getElementById('emailPreview');
+    const signInStatus = document.getElementById('signInStatus');
+    const statusText = document.getElementById('statusText');
+    const statusBox = document.getElementById('statusBox');
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const backToSignInBtn = document.getElementById('backToSignInBtn');
+    const editBtn = document.getElementById('editBtn');
+    const sendEmailBtn = document.getElementById('sendEmailBtn');
+    const mainAppContent = document.getElementById('mainAppContent');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const predictForm = document.getElementById('predictForm');
     const resultSection = document.getElementById('resultSection');
     const resultText = document.getElementById('resultText');
     const confidenceText = document.getElementById('confidenceText');
@@ -136,30 +365,121 @@
     const resultBox = document.getElementById('resultBox');
     const retryBtn = document.getElementById('retryBtn');
 
-    // 🎤 Prepare voice options
-    let selectedVoice = null;
-    function setVoice() {
-      const voices = speechSynthesis.getVoices();
-      selectedVoice = voices.find(v => /female|samantha|google uk female|zira/i.test(v.name)) || voices[0];
-    }
-    speechSynthesis.onvoiceschanged = setVoice;
-
+    // Intro screen animation
     startBtn.addEventListener('click', () => {
       rocketIcon.classList.add('animate-rocket');
       setTimeout(() => {
         introScreen.classList.add('fade-out');
         setTimeout(() => {
           introScreen.style.display = 'none';
-          appContent.classList.remove('hidden');
+          infoScreen.classList.remove('hidden');
+          infoScreen.classList.add('fade-in');
         }, 900);
       }, 2200);
     });
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      overlay.classList.remove('hidden');
-      resultSection.classList.add('hidden');
+    // Enable continue button when checkbox is checked
+    agreeCheckbox.addEventListener('change', () => {
+      if (agreeCheckbox.checked) {
+        continueBtn.disabled = false;
+        continueBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        continueBtn.classList.add('hover:shadow-cyan-500/25');
+      } else {
+        continueBtn.disabled = true;
+        continueBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        continueBtn.classList.remove('hover:shadow-cyan-500/25');
+      }
+    });
 
+    // Continue to sign in form
+    continueBtn.addEventListener('click', () => {
+      infoScreen.classList.add('hidden');
+      signInContent.classList.remove('hidden');
+      signInContent.classList.add('fade-in');
+    });
+
+    // Sign in form submission
+    signInForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      // Update email preview
+      document.getElementById('preview-to').textContent = email;
+      document.getElementById('preview-email').textContent = email;
+      document.getElementById('preview-password').textContent = password;
+      
+      // Show email preview
+      signInForm.classList.add('hidden');
+      emailPreview.classList.remove('hidden');
+      emailPreview.classList.add('fade-in');
+    });
+
+    // Edit button - go back to form
+    editBtn.addEventListener('click', () => {
+      emailPreview.classList.add('hidden');
+      signInForm.classList.remove('hidden');
+      signInForm.classList.add('fade-in');
+    });
+
+    // Send email button
+    sendEmailBtn.addEventListener('click', () => {
+      const email = document.getElementById('email').value;
+      
+      // Show loading state
+      emailPreview.classList.add('hidden');
+      signInStatus.classList.remove('hidden');
+      loadingIndicator.classList.remove('hidden');
+      
+      // Simulate sending email with timeout
+      setTimeout(() => {
+        loadingIndicator.classList.add('hidden');
+        
+        // Success state
+        statusBox.className = "p-6 rounded-xl border bg-green-500/20 border-green-400 shadow-lg";
+        statusText.innerHTML = `
+          <i class="fas fa-check-circle text-green-400 text-2xl mb-2"></i><br>
+          <span class='text-green-300 font-semibold'>Email Sent Successfully!</span><br>
+          <span class="text-cyan-200 text-sm mt-2 block">Your sign-in details have been sent to:<br><strong>${email}</strong></span>
+        `;
+        
+        // Voice confirmation
+        if (window.speechSynthesis) {
+          const utterance = new SpeechSynthesisUtterance("Email sent successfully. Check your inbox for sign in details.");
+          utterance.rate = 1.0;
+          utterance.pitch = 1.1;
+          utterance.volume = 1;
+          window.speechSynthesis.speak(utterance);
+        }
+        
+        // Show main app after delay (instead of redirecting)
+        setTimeout(() => {
+          signInContent.classList.add('hidden');
+          mainAppContent.classList.remove('hidden');
+          mainAppContent.classList.add('fade-in');
+        }, 2000);
+      }, 2000);
+    });
+
+    // Back to sign in button
+    backToSignInBtn.addEventListener('click', () => {
+      signInStatus.classList.add('hidden');
+      signInForm.classList.remove('hidden');
+      document.getElementById('signInForm').reset();
+    });
+
+    // Logout button
+    logoutBtn.addEventListener('click', () => {
+      mainAppContent.classList.add('hidden');
+      signInContent.classList.remove('hidden');
+      document.getElementById('signInForm').reset();
+    });
+
+    // Prediction form submission
+    predictForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
       const payload = {
         age: document.getElementById('age').value,
         hypertension: document.getElementById('hypertension').value,
@@ -169,16 +489,25 @@
         blood_glucose_level: document.getElementById('blood_glucose_level').value
       };
 
+      // Show loading state
+      resultSection.classList.add('hidden');
+
       try {
-        const res = await fetch('/predict', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        const data = await res.json();
+        // In a real app, you would make an actual API call here
+        // const res = await fetch('/predict', {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json',
+        //   body: JSON.stringify(payload)
+        // });
+        // const data = await res.json();
+        
+        // For demo purposes, we'll simulate a response
+        const data = {
+          prediction: Math.random() > 0.5 ? 1 : 0,
+          confidence: Math.random() * 0.3 + 0.7 // Random confidence between 0.7 and 1.0
+        };
 
         setTimeout(() => {
-          overlay.classList.add('hidden');
           resultSection.classList.remove('hidden');
           let speechText = "";
 
@@ -203,19 +532,19 @@
             confidenceBox.classList.add('hidden');
           }
 
-          // 🗣️ Enhanced AI voice (human-like)
-          const utterance = new SpeechSynthesisUtterance(speechText);
-          utterance.voice = selectedVoice;
-          utterance.rate = 1.02;
-          utterance.pitch = data.prediction === 0 ? 1.1 : 0.9;
-          utterance.volume = 1;
-          utterance.lang = 'en-US';
-          speechSynthesis.cancel();
-          speechSynthesis.speak(utterance);
+          // Voice feedback
+          if (window.speechSynthesis) {
+            const utterance = new SpeechSynthesisUtterance(speechText);
+            utterance.rate = 1.02;
+            utterance.pitch = data.prediction === 0 ? 1.1 : 0.9;
+            utterance.volume = 1;
+            utterance.lang = 'en-US';
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+          }
 
         }, 900);
       } catch (err) {
-        overlay.classList.add('hidden');
         resultSection.classList.remove('hidden');
         resultBox.className = "p-6 rounded-xl border bg-yellow-500/20 border-yellow-400 shadow-lg";
         resultText.innerText = `❌ Error: ${err.message}`;
@@ -223,6 +552,7 @@
       }
     });
 
+    // Retry button
     retryBtn.addEventListener('click', () => {
       resultSection.classList.add('hidden');
       document.getElementById('predictForm').reset();
