@@ -6,9 +6,9 @@ from flask import Flask, request, jsonify, render_template, send_from_directory
 app = Flask(__name__, template_folder='Template', static_folder='static')
 
 # Load model once on startup
-MODEL_PATH = 'diabetes_model.pkl'
+MODEL_PATH = os.path.join(os.path.dirname(__file__), 'diabetes_model.pkl')
 if not os.path.exists(MODEL_PATH):
-    raise FileNotFoundError(f"Model not found at {MODEL_PATH}. Place your diabetes_model.pkl in the project root.")
+    raise FileNotFoundError(f"Model not found at {MODEL_PATH}. Place your diabetes_model.pkl in the same folder as app.py.")
 
 with open(MODEL_PATH, 'rb') as f:
     model = pickle.load(f)
