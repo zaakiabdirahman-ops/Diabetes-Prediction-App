@@ -261,12 +261,29 @@
       border-radius: 12px;
     }
 
-    .risk-indicator {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 15px 0;
-    }
+    .risk-labels {
+  display: flex;
+  justify-content: space-between;
+  width: 200px;
+  margin-top: 10px;
+  font-size: 0.8rem;
+}
+
+/* For the icon version */
+.risk-labels span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+/* For the background highlight version */
+.risk-labels span {
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
 
     .risk-meter {
       width: 200px;
@@ -639,6 +656,7 @@
       <button id="runBtn" type="submit" class="w-full bg-cyan-500 hover:bg-cyan-400 text-black font-semibold py-3 rounded-xl transition">Run Prediction 🔍</button>
     </form>
 
+
     <!-- RESULT -->
     <div id="resultSection" class="mt-6 hidden text-center">
       <h2 class="text-2xl font-bold text-cyan-300 mb-3">Prediction Result</h2>
@@ -654,18 +672,23 @@
           <p id="confidenceText" class="confidence-box text-cyan-100"></p>
         </div>
 
-        <!-- Risk Indicator -->
-        <div class="risk-indicator mt-4">
-          <div class="risk-meter">
-            <div id="riskPointer" class="risk-pointer"></div>
-          </div>
-        </div>
-        <div class="risk-labels">
-          <span>Low Risk</span>
-          <span>Medium Risk</span>
-          <span>High Risk</span>
-        </div>
-      </div>
+        <!-- Enhanced Risk Indicator with Icons -->
+<div class="risk-indicator mt-4">
+  <div class="risk-meter">
+    <div id="riskPointer" class="risk-pointer"></div>
+  </div>
+</div>
+<div class="risk-labels">
+  <span class="text-green-400 font-semibold flex items-center justify-center">
+    <i class="fas fa-check-circle mr-1 text-sm"></i> Low Risk
+  </span>
+  <span class="text-yellow-400 font-semibold flex items-center justify-center">
+    <i class="fas fa-exclamation-triangle mr-1 text-sm"></i> Medium Risk
+  </span>
+  <span class="text-red-400 font-semibold flex items-center justify-center">
+    <i class="fas fa-exclamation-circle mr-1 text-sm"></i> High Risk
+  </span>
+</div>
 
       <!-- Detailed Prediction Information -->
       <div id="predictionDetails" class="prediction-details mt-4 hidden">
@@ -681,6 +704,28 @@
       <button id="retryBtn" class="mt-4 bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-lg">Try Again 🔁</button>
     </div>
   </div>
+
+<!-- GET IN TOUCH SECTION -->
+    <div class="info-card mt-6 text-center">
+      <div class="card-icon">
+        <i class="fas fa-handshake"></i>
+      </div>
+      <h2 class="text-2xl font-bold text-cyan-300 mb-4">Get In Touch</h2>
+      <p class="text-cyan-200 mb-4">Have questions or want to collaborate? Feel free to reach out!</p>
+      
+      <div class="contact-links">
+        <a href="https://zaakiabdirahman-ops.github.io/Zack/" class="contact-link" target="_blank">
+          <i class="fas fa-globe"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/zakariye-abdirahman-31a90a257" class="contact-link" target="_blank">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="https://wa.me/254722629948" class="contact-link" target="_blank">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </div>
+    </div>
+    
 
   <script>
     // All existing JavaScript code remains the same
