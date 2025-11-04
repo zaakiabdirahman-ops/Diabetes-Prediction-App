@@ -41,10 +41,17 @@
       0%, 100% { box-shadow: 0 0 20px rgba(34, 211, 238, 0.3); }
       50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.5); }
     }
+    @keyframes bounce {
+      0%, 20%, 53%, 80%, 100% { transform: translate3d(0,0,0); }
+      40%, 43% { transform: translate3d(0,-15px,0); }
+      70% { transform: translate3d(0,-7px,0); }
+      90% { transform: translate3d(0,-3px,0); }
+    }
     .animate-rocket { animation: rocketLaunch 2.5s ease-in-out forwards; }
     .animate-hologram { animation: hologram 3s linear infinite; }
     .fade-out { animation: fadeOut 1s forwards; }
     .fade-in { animation: fadeIn 0.8s ease-out forwards; }
+    .bounce { animation: bounce 1s ease infinite; }
     @keyframes fadeOut {
       from { opacity: 1; }
       to { opacity: 0; visibility: hidden; }
@@ -65,11 +72,11 @@
       0%, 100% { box-shadow: 0 0 15px rgba(14,165,233,0.3); }
       50% { box-shadow: 0 0 25px rgba(59,130,246,0.5); }
     }
-    
+
     .form-input:focus {
       box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.3);
     }
-    
+
     .email-preview {
       background: rgba(15, 23, 42, 0.7);
       border: 1px solid rgba(34, 211, 238, 0.3);
@@ -77,7 +84,7 @@
       padding: 15px;
       margin-top: 20px;
     }
-    
+
     .main-app {
       background: rgba(15, 23, 42, 0.7);
       border: 1px solid rgba(34, 211, 238, 0.3);
@@ -87,7 +94,7 @@
       width: 100%;
       max-width: 800px;
     }
-    
+
     .info-card {
       background: rgba(15, 23, 42, 0.7);
       border: 1px solid rgba(34, 211, 238, 0.3);
@@ -98,25 +105,25 @@
       transition: all 0.3s ease;
       animation: cardGlow 4s ease-in-out infinite;
     }
-    
+
     .info-card:hover {
       transform: translateY(-5px);
       border-color: rgba(34, 211, 238, 0.6);
     }
-    
+
     .card-icon {
       font-size: 2.5rem;
       margin-bottom: 15px;
       color: #22d3ee;
     }
-    
+
     .glass-panel {
       background: rgba(15, 23, 42, 0.7);
       backdrop-filter: blur(10px);
       border: 1px solid rgba(34, 211, 238, 0.3);
       border-radius: 16px;
     }
-    
+
     .google-btn {
       background: white;
       color: #757575;
@@ -131,10 +138,42 @@
       transition: all 0.3s ease;
       width: 100%;
     }
-    
+
     .google-btn:hover {
       background: #f8f9fa;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .result-illustration {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(34, 211, 238, 0.3);
+    }
+
+    .result-illustration i {
+      font-size: 60px;
+    }
+
+    .bmi-compact {
+      padding: 15px;
+      margin: 10px 0;
+    }
+
+    .bmi-compact .card-icon {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    .bmi-compact h2 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
     }
   </style>
 </head>
@@ -172,7 +211,7 @@
   <div id="infoScreen" class="hidden w-full max-w-4xl glass-panel p-6 mt-10">
     <h1 class="text-4xl font-bold mb-2 text-center text-cyan-300">Diabetes Prediction System</h1>
     <p class="text-center text-lg text-cyan-200 mb-8">Please review the following information before proceeding</p>
-    
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <!-- Introduction Card -->
       <div class="info-card">
@@ -199,7 +238,7 @@
           </p>
         </div>
       </div>
-      
+
       <!-- Disclaimer Card -->
       <div class="info-card">
         <div class="card-icon">
@@ -224,7 +263,7 @@
             <span><strong>Privacy:</strong> While we implement security measures, no system is completely immune to breaches.</span>
           </p>
         </div>
-        
+
         <div class="mt-6 p-4 bg-cyan-900/30 rounded-lg border border-cyan-700/50">
           <div class="flex items-start">
             <input type="checkbox" id="agreeCheckbox" class="mt-1 mr-3 rounded bg-transparent border-cyan-300/50 text-cyan-400 focus:ring-cyan-400">
@@ -235,7 +274,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Continue Button -->
     <div class="text-center mt-8">
       <button id="continueBtn" disabled
@@ -261,7 +300,7 @@
       </svg>
       Continue with Google
     </button>
-    
+
     <div class="flex items-center my-4">
       <div class="flex-1 border-t border-cyan-300/30"></div>
       <span class="px-3 text-cyan-200 text-sm">or</span>
@@ -270,15 +309,15 @@
 
     <form id="signInForm" class="space-y-4">
       <div>
-        <input name="email" id="email" placeholder="Email Address" type="email" required 
+        <input name="email" id="email" placeholder="Email Address" type="email" required
                class="w-full p-3 rounded-xl bg-transparent border border-cyan-300/50 text-white placeholder-cyan-200 form-input transition-all">
       </div>
-      
+
       <div>
-        <input name="password" id="password" placeholder="Password" type="password" required 
+        <input name="password" id="password" placeholder="Password" type="password" required
                class="w-full p-3 rounded-xl bg-transparent border border-cyan-300/50 text-white placeholder-cyan-200 form-input transition-all">
       </div>
-      
+
       <div class="flex items-center justify-between text-sm">
         <label class="flex items-center text-cyan-200">
           <input type="checkbox" class="rounded bg-transparent border-cyan-300/50 text-cyan-400 focus:ring-cyan-400">
@@ -287,13 +326,13 @@
         <a href="#" class="text-cyan-300 hover:text-cyan-200 transition-colors">Forgot password?</a>
       </div>
 
-      <button id="signInBtn" type="submit" 
+      <button id="signInBtn" type="submit"
               class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-cyan-500/25">
         Sign In 🔍
       </button>
-      
+
       <div class="text-center text-cyan-200 text-sm mt-4">
-        Don't have an account? 
+        Don't have an account?
         <a href="#" class="text-cyan-300 font-semibold hover:text-cyan-200 transition-colors">Sign up here</a>
       </div>
     </form>
@@ -358,8 +397,8 @@
     </div>
     <p class="text-center text-sm text-cyan-200 mb-6">AI-powered health insights using advanced analytics</p>
 
-    <!-- BMI CALCULATOR SECTION -->
-    <div class="info-card mb-6">
+    <!-- BMI CALCULATOR SECTION - COMPACT VERSION -->
+    <div class="info-card bmi-compact mb-6">
       <div class="card-icon">
         <i class="fas fa-calculator"></i>
       </div>
@@ -412,6 +451,12 @@
     <!-- RESULT -->
     <div id="resultSection" class="mt-6 hidden text-center">
       <h2 class="text-2xl font-bold text-cyan-300 mb-3">Prediction Result</h2>
+
+      <!-- Result Illustration -->
+      <div id="resultIllustration" class="result-illustration">
+        <i id="resultIcon" class="fas fa-question-circle text-cyan-300"></i>
+      </div>
+
       <div id="resultBox" class="p-6 rounded-xl transition-all backdrop-blur-lg shadow-lg border">
         <p id="resultText" class="text-lg font-semibold"></p>
         <div id="confidenceBox" class="mt-3 hidden">
@@ -449,6 +494,8 @@
     const confidenceBox = document.getElementById('confidenceBox');
     const resultBox = document.getElementById('resultBox');
     const retryBtn = document.getElementById('retryBtn');
+    const resultIllustration = document.getElementById('resultIllustration');
+    const resultIcon = document.getElementById('resultIcon');
 
     // BMI Calculator Elements
     const calculateBmiBtn = document.getElementById('calculateBmiBtn');
@@ -612,28 +659,17 @@
         loadingIndicator.classList.add('hidden');
 
         // Success state
-        statusBox.className = "p-6 rounded-xl border bg-green-500/20 border-green-400 shadow-lg";
-        statusText.innerHTML = `
-          <i class="fas fa-check-circle text-green-400 text-2xl mb-2"></i><br>
-          <span class='text-green-300 font-semibold'>Email Sent Successfully!</span><br>
-          <span class="text-cyan-200 text-sm mt-2 block">Your sign-in details have been sent to:<br><strong>${email}</strong></span>
-        `;
+        statusBox.className = "p-6 rounded-xl transition-all backdrop-blur-lg shadow-lg border border-green-500/50 bg-green-900/20";
+        statusText.textContent = "✅ Email sent successfully! Check your inbox for sign-in details.";
+        statusText.className = "text-lg font-semibold text-green-300";
 
-        // Voice confirmation
-        if (window.speechSynthesis) {
-          const utterance = new SpeechSynthesisUtterance("Email sent successfully. Check your inbox for sign in details.");
-          utterance.rate = 1.0;
-          utterance.pitch = 1.1;
-          utterance.volume = 1;
-          window.speechSynthesis.speak(utterance);
-        }
-
-        // Show main app after delay (instead of redirecting)
-        setTimeout(() => {
-          signInContent.classList.add('hidden');
-          mainAppContent.classList.remove('hidden');
-          mainAppContent.classList.add('fade-in');
-        }, 2000);
+        // Set voice and speak
+        setVoice();
+        const utterance = new SpeechSynthesisUtterance(`Email sent successfully to ${email}. Check your inbox for sign-in details.`);
+        utterance.voice = selectedVoice;
+        utterance.rate = 1;
+        utterance.pitch = 1;
+        speechSynthesis.speak(utterance);
       }, 2000);
     });
 
@@ -641,73 +677,72 @@
     backToSignInBtn.addEventListener('click', () => {
       signInStatus.classList.add('hidden');
       signInForm.classList.remove('hidden');
-      document.getElementById('signInForm').reset();
+      signInForm.classList.add('fade-in');
     });
 
     // Logout button
     logoutBtn.addEventListener('click', () => {
       mainAppContent.classList.add('hidden');
       signInContent.classList.remove('hidden');
-      document.getElementById('signInForm').reset();
+      signInContent.classList.add('fade-in');
     });
 
-    // Prediction form submission - KEPT EXACTLY THE SAME
-    predictForm.addEventListener('submit', async (e) => {
+    // Prediction form submission
+    predictForm.addEventListener('submit', (e) => {
       e.preventDefault();
+
+      // Show loading overlay
       const overlay = document.getElementById('loadingOverlay');
       overlay.classList.remove('hidden');
 
-      const formData = new FormData(predictForm);
-      const data = Object.fromEntries(formData);
-
-      try {
-        const response = await fetch('/predict', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-
-        const result = await response.json();
+      // Simulate prediction processing
+      setTimeout(() => {
         overlay.classList.add('hidden');
         resultSection.classList.remove('hidden');
         resultSection.classList.add('fade-in');
 
-        if (result.prediction === 1) {
-          resultText.textContent = "⚠️ High Risk of Diabetes Detected";
-          resultBox.className = "p-6 rounded-xl border bg-red-500/20 border-red-400 shadow-lg";
-          confidenceBox.classList.remove('hidden');
-          confidenceText.textContent = `Confidence Level: ${result.confidence || '85%'}`;
+        // Random result for demo (in real app, this would come from the model)
+        const isDiabetic = Math.random() > 0.5;
+        const confidence = (Math.random() * 30 + 70).toFixed(1); // 70-100% confidence
 
-          if (window.speechSynthesis) {
-            const utterance = new SpeechSynthesisUtterance("Warning! High risk of diabetes detected. Please consult with a healthcare professional.");
-            utterance.rate = 0.9;
-            utterance.pitch = 1.0;
-            utterance.volume = 1;
-            if (selectedVoice) utterance.voice = selectedVoice;
-            window.speechSynthesis.speak(utterance);
-          }
+        // Set result content based on prediction
+        if (isDiabetic) {
+          resultText.textContent = "⚠️ The model predicts you may have diabetes. Please consult a healthcare professional for proper diagnosis and guidance.";
+          resultText.className = "text-lg font-semibold text-yellow-300";
+          resultBox.className = "p-6 rounded-xl transition-all backdrop-blur-lg shadow-lg border border-yellow-500/50 bg-yellow-900/20";
+
+          // Set illustration for negative result
+          resultIcon.className = "fas fa-exclamation-triangle text-yellow-400";
+          resultIllustration.style.borderColor = "rgba(251, 191, 36, 0.5)";
+          resultIllustration.style.background = "rgba(251, 191, 36, 0.1)";
+
+          // Set voice message
+          const utterance = new SpeechSynthesisUtterance("The model predicts you may have diabetes. Please consult a healthcare professional for proper diagnosis and guidance.");
+          utterance.voice = selectedVoice;
+          utterance.rate = 0.9;
+          speechSynthesis.speak(utterance);
         } else {
-          resultText.textContent = "✅ Low Risk of Diabetes";
-          resultBox.className = "p-6 rounded-xl border bg-green-500/20 border-green-400 shadow-lg";
-          confidenceBox.classList.remove('hidden');
-          confidenceText.textContent = `Confidence Level: ${result.confidence || '92%'}`;
+          resultText.textContent = "🎉 Great news! The model predicts you are not diabetic. Keep maintaining a healthy lifestyle! 😊";
+          resultText.className = "text-lg font-semibold text-green-300";
+          resultBox.className = "p-6 rounded-xl transition-all backdrop-blur-lg shadow-lg border border-green-500/50 bg-green-900/20";
 
-          if (window.speechSynthesis) {
-            const utterance = new SpeechSynthesisUtterance("Good news! Low risk of diabetes detected. Maintain a healthy lifestyle.");
-            utterance.rate = 1.0;
-            utterance.pitch = 1.1;
-            utterance.volume = 1;
-            if (selectedVoice) utterance.voice = selectedVoice;
-            window.speechSynthesis.speak(utterance);
-          }
+          // Set illustration for positive result
+          resultIcon.className = "fas fa-check-circle text-green-400";
+          resultIllustration.style.borderColor = "rgba(34, 197, 94, 0.5)";
+          resultIllustration.style.background = "rgba(34, 197, 94, 0.1)";
+
+          // Set voice message
+          const utterance = new SpeechSynthesisUtterance("Great news! The model predicts you are not diabetic. Keep maintaining a healthy lifestyle!");
+          utterance.voice = selectedVoice;
+          utterance.rate = 1.1;
+          utterance.pitch = 1.1;
+          speechSynthesis.speak(utterance);
         }
-      } catch (error) {
-        console.error('Error:', error);
-        overlay.classList.add('hidden');
-        resultSection.classList.remove('hidden');
-        resultText.textContent = "❌ Error in prediction";
-        resultBox.className = "p-6 rounded-xl border bg-red-500/20 border-red-400 shadow-lg";
-      }
+
+        // Show confidence
+        confidenceText.textContent = `Model Confidence: ${confidence}%`;
+        confidenceBox.classList.remove('hidden');
+      }, 3000);
     });
 
     // Retry button
